@@ -1,3 +1,7 @@
+# Readme.
+
+(tbd)
+
 # Notes on development.
 
 ## Installed pyenv and pyenv-virtualenv using administrator account.
@@ -22,6 +26,10 @@
     % pyenv virtualenv 3.5.1 s9-concilium-hooke
     % pyenv global s9-concilium-hooke
     % pip install Flask
+    % pip install SQLAlchemy
+    % pip install nose
+    % pip install coverage
+    % pip install behave
     % pyenv global system
 
 ## Initialized project directory.
@@ -37,3 +45,13 @@
 
     % git add DEVELOPERS.md .gitignore
     % git commit -m “Initial commit with developers notes.”
+
+## Pulled project into SmartGit as new repository, initialized with Git Flow.
+
+## Pulled project into Eclipse as new project, switched to PyDev perspective.
+
+## After some coding, did a devel install of package.
+
+	[ added setup.py file ]
+	
+    % pip install -e .
