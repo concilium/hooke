@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Date, ForeignKeyConstraint
+from sqlalchemy import Column, String, DateTime, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy_enum34 import EnumType
 
@@ -14,7 +14,7 @@ class History( HookeModelBase ):
     # attributes
         
     id = Column( 'id', String, primary_key = True )
-    started_on = Column( 'started_on', Date, nullable = False  )
+    started_on = Column( 'started_on', DateTime, nullable = False  )
     concept_id = Column( 'concept_id', String, nullable = False )
     palette_id = Column( 'palette_id', String, nullable = False )
     state = Column( 'state', EnumType( State ), nullable = False )
