@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, DateTime, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_enum34 import EnumType
 
 from . import HookeModelBase, State
@@ -22,6 +23,9 @@ class History( HookeModelBase ):
     # relationships
     
     concept_palette = relationship( 'ConceptPalette', back_populates = 'histories' )
+
+    history_players = relationship( 'HistoryPlayer', back_populates = 'history' )
+    players = association_proxy( 'history_players', 'player' )
     
     # miscellaneous
     

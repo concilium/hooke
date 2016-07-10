@@ -43,3 +43,16 @@ player_attribs = {
     'last_name'  : 'Player',
     'email'      : 'myplayer@nowhere.com',
 }
+
+history_player_attribs = {
+    'history_id' : history_attribs['id'],
+    'player_id'  : player_attribs['id'],
+}
+
+period_attribs = {
+    'id'          : 'myperiod',
+    'history_id'  : history_attribs['id'],
+    'position'    : Hooke.model.Position.medial,
+    'description' : 'This is my period description.',
+    'tone'        : Hooke.model.Tone.light,
+}

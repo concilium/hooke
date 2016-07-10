@@ -1,8 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
-
-HookeModelBase = declarative_base()
-
-from .types import Flavor, Tone, State
+from .bases import HookeModelBase
+from .types import Flavor, State, Position, Tone
 
 from .concept import Concept
 from .palette import Palette
@@ -12,5 +9,6 @@ from .palette_ingredient import PaletteIngredient
 
 from .history import History
 from .player import Player
+from .history_player import HistoryPlayer
 
 from .sessions import SQLiteMemorySession
