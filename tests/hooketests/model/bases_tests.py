@@ -1,13 +1,14 @@
+from unittest import TestCase
 from nose.plugins.attrib import attr
 
-import Hooke
+import hooke
 
 from ._helpers import check_attr
 
-class HookeModelBase_Tests:
+class HookeModelBaseTests( TestCase ):
     
     @attr( type = 'existence' )
-    def test_for_existence( self ):
-#        '''verify existence of "HookeModelBase" class'''
+    def test_existence( self ):
+        '''verify existence of "HookeModelBase" class'''
     
-        check_attr( Hooke.model, 'HookeModelBase' )
+        check_attr( hooke.model, 'HookeModelBase' )

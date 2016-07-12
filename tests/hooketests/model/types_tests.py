@@ -1,46 +1,47 @@
+from unittest import TestCase
 from nose.plugins.attrib import attr
 
-import Hooke
+import hooke
 
 from ._helpers import check_attr
 
-class FlavorTests:
+class FlavorTests( TestCase ):
     
     @attr( type = 'existence' )
     def test_existence( self ):
         '''verify existence and values of "Flavor" enumeration'''
     
-        check_attr( Hooke.model, 'Flavor' )
-        assert Hooke.model.Flavor.include
-        assert Hooke.model.Flavor.exclude
+        check_attr( hooke.model, 'Flavor' )
+        assert hooke.model.Flavor.include
+        assert hooke.model.Flavor.exclude
 
-class StateTests:
+class StateTests( TestCase ):
 
     @attr( type = 'existence' )
     def test_existence( self ):
         '''verify existence and values of "State" enumeration'''
     
-        check_attr( Hooke.model, 'State' )
-        assert Hooke.model.State.active
-        assert Hooke.model.State.inactive
+        check_attr( hooke.model, 'State' )
+        assert hooke.model.State.active
+        assert hooke.model.State.inactive
 
-class PositionTests:
+class PositionTests( TestCase ):
 
     @attr( type = 'existence' )
     def test_existence( self ):
         '''verify existence and values of "Position" enumeration'''
     
-        check_attr( Hooke.model, 'Position' )
-        assert Hooke.model.Position.initial
-        assert Hooke.model.Position.medial
-        assert Hooke.model.Position.final
+        check_attr( hooke.model, 'Position' )
+        assert hooke.model.Position.initial
+        assert hooke.model.Position.medial
+        assert hooke.model.Position.final
 
-class ToneTests:
+class ToneTests( TestCase ):
 
     @attr( type = 'existence' )
     def test_existence( self ):
         '''verify existence and values of "Tone" enumeration'''
     
-        check_attr( Hooke.model, 'Tone' )
-        assert Hooke.model.Tone.light
-        assert Hooke.model.Tone.dark
+        check_attr( hooke.model, 'Tone' )
+        assert hooke.model.Tone.light
+        assert hooke.model.Tone.dark

@@ -1,5 +1,5 @@
 import datetime
-import Hooke
+import hooke
 
 concept_attribs = {
     'id'          : 'myconcept',
@@ -25,7 +25,7 @@ concept_palette_attribs = {
 palette_ingredient_attribs = {
     'palette_id'    : palette_attribs['id'],
     'ingredient_id' : ingredient_attribs['id'],
-    'flavor'        : Hooke.model.Flavor.include,
+    'flavor'        : hooke.model.Flavor.include,
 }
 
 history_attribs = {
@@ -33,7 +33,7 @@ history_attribs = {
     'started_on' : datetime.datetime.now(),
     'concept_id' : concept_attribs['id'],
     'palette_id' : palette_attribs['id'],
-    'state'      : Hooke.model.State.active,
+    'state'      : hooke.model.State.active,
 }
 
 player_attribs = {
@@ -52,7 +52,7 @@ history_player_attribs = {
 period_attribs = {
     'id'          : 'myperiod',
     'history_id'  : history_attribs['id'],
-    'position'    : Hooke.model.Position.medial,
+    'position'    : hooke.model.Position.medial,
     'description' : 'This is my period description.',
-    'tone'        : Hooke.model.Tone.light,
+    'tone'        : hooke.model.Tone.light,
 }
