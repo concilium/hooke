@@ -54,7 +54,7 @@ class HistoryPlayerTests( TestCase ):
         assert len( p.history_players ) == 1
         assert p.history_players[0] == hp
         assert len( p.histories ) == 1
-        assert p.histories[0] == p
+        assert p.histories[0] == h
 
         delete_history_player( ses )
         ses.commit()

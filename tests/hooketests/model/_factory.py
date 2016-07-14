@@ -18,6 +18,7 @@ def query_concept( session ):
 def delete_concept( session ):
     concept = query_concept( session )
     session.delete( concept )
+    session.commit()
     return
 
 palette_attribs = {
@@ -37,6 +38,7 @@ def query_palette( session ):
 def delete_palette( session ):
     palette = query_palette( session )
     session.delete( palette )
+    session.commit()
     return
 
 ingredient_attribs = {
@@ -56,6 +58,7 @@ def query_ingredient( session ):
 def delete_ingredient( session ):
     ingredient = query_ingredient( session )
     session.delete( ingredient )
+    session.commit()
     return
 
 concept_palette_attribs = {
@@ -81,6 +84,7 @@ def query_concept_palette( session ):
 def delete_concept_palette( session ):
     concept_palette = query_concept_palette( session )
     session.delete( concept_palette )
+    session.commit()
     delete_palette( session )
     delete_concept( session )
     return
@@ -108,6 +112,7 @@ def query_palette_ingredient( session ):
 def delete_palette_ingredient( session ):
     palette_ingredient = query_palette_ingredient( session )
     session.delete( palette_ingredient )
+    session.commit()
     delete_ingredient( session )
     delete_palette( session )
     return
@@ -133,6 +138,7 @@ def query_history( session ):
 def delete_history( session ):
     history = query_history( session )
     session.delete( history )
+    session.commit()
     delete_concept_palette( session )
     return
 
@@ -156,6 +162,7 @@ def query_player( session ):
 def delete_player( session ):
     player = query_player( session )
     session.delete( player )
+    session.commit()
     return
 
 history_player_attribs = {
@@ -180,6 +187,7 @@ def query_history_player( session ):
 def delete_history_player( session ):
     history_player = query_history_player( session )
     session.delete( history_player )
+    session.commit()
     delete_player( session )
     delete_history( session )
     return
