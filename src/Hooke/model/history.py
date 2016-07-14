@@ -23,6 +23,8 @@ class History( HookeModelBase ):
     # relationships
     
     concept_palette = relationship( 'ConceptPalette', back_populates = 'histories' )
+    concept = association_proxy( 'concept_palette', 'concept' )
+    palette = association_proxy( 'concept_palette', 'palette' )
 
     history_players = relationship( 'HistoryPlayer', back_populates = 'history' )
     players = association_proxy( 'history_players', 'player' )

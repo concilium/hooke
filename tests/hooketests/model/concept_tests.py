@@ -3,7 +3,7 @@ from nose.plugins.attrib import attr
 
 import hooke
 
-from ._attributes import concept_attribs
+from ._factory import concept_attribs, add_concept, query_concept, delete_concept
 from ._helpers import check_attr, compare_attrs, check_repr
 
 class ConceptTests( TestCase ):
@@ -23,14 +23,13 @@ class ConceptTests( TestCase ):
         '''verify persistence of "Concept" instances'''
         
         ses1 = hooke.model.SQLiteMemorySession()
-        c1 = hooke.model.Concept( **concept_attribs )
-        ses1.add( c1 )
+        add_concept( ses1 )
         ses1.commit()
         ses1.close()
     
         ses2 = hooke.model.SQLiteMemorySession()
-        c2 = ses2.query( hooke.model.Concept ).filter( hooke.model.Concept.id == concept_attribs['id'] ).one()
-        compare_attrs( c2, concept_attribs )
-        ses2.delete( c2 )
+        c = query_concept( ses2 )
+        compare_attrs( c, concept_attribs )
+        delete_concept( ses2 )
         ses2.commit()
         ses2.close()

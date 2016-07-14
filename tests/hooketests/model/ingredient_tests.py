@@ -3,7 +3,7 @@ from nose.plugins.attrib import attr
 
 import hooke
 
-from ._attributes import ingredient_attribs
+from ._factory import ingredient_attribs, add_ingredient, query_ingredient, delete_ingredient
 from ._helpers import check_attr, compare_attrs, check_repr
 
 class IngredientTests( TestCase ):
@@ -23,14 +23,13 @@ class IngredientTests( TestCase ):
         '''verify persistence of "Ingredient" instances'''
         
         ses1 = hooke.model.SQLiteMemorySession()
-        i1 = hooke.model.Ingredient( **ingredient_attribs )
-        ses1.add( i1 )
+        add_ingredient( ses1 )
         ses1.commit()
         ses1.close()
     
         ses2 = hooke.model.SQLiteMemorySession()
-        i2 = ses2.query( hooke.model.Ingredient ).filter( hooke.model.Ingredient.id == ingredient_attribs['id'] ).one()
-        compare_attrs( i2, ingredient_attribs )
-        ses2.delete( i2 )
+        i = query_ingredient( ses2 )
+        compare_attrs( i, ingredient_attribs )
+        delete_ingredient( ses2 )
         ses2.commit()
         ses2.close()

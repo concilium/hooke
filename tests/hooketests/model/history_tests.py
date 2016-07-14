@@ -3,7 +3,7 @@ from nose.plugins.attrib import attr
 
 import hooke
 
-from ._attributes import history_attribs, concept_attribs, palette_attribs, concept_palette_attribs
+from ._factory import history_attribs, add_history, query_history, delete_history, query_concept, query_palette, query_concept_palette
 from ._helpers import check_attr, compare_attrs, check_repr
 
 class HistoryTests( TestCase ):
@@ -21,31 +21,36 @@ class HistoryTests( TestCase ):
     @attr( type = 'persistence' )
     def test_persistence( self ):
         '''verify persistence of "History" instances'''
-        
+
         ses1 = hooke.model.SQLiteMemorySession()
-        c1 = hooke.model.Concept( **concept_attribs )
-        ses1.add( c1 )
-        p1 = hooke.model.Palette( **palette_attribs )
-        ses1.add( p1 )
-        cp1 = hooke.model.ConceptPalette( **concept_palette_attribs )
-        ses1.add( cp1 )
-        h1 = hooke.model.History( **history_attribs )
-        ses1.add( h1 )
+        add_history( ses1 )
         ses1.commit()
         ses1.close()
-        
+    
         ses2 = hooke.model.SQLiteMemorySession()
-        h2 = ses2.query( hooke.model.History ).filter( hooke.model.History.id == history_attribs['id'] ).one()
-        compare_attrs( h2, history_attribs )
-        ses2.delete( h2 )
-        cp2 = ses2.query( hooke.model.ConceptPalette ).filter(
-                            hooke.model.ConceptPalette.concept_id == concept_palette_attribs['concept_id'],
-                            hooke.model.ConceptPalette.palette_id == concept_palette_attribs['palette_id']
-        ).one()
-        ses2.delete( cp2 )
-        p2 = ses2.query( hooke.model.Palette ).filter( hooke.model.Palette.id == palette_attribs['id'] ).one()
-        ses2.delete( p2 )
-        c2 = ses2.query( hooke.model.Concept ).filter( hooke.model.Concept.id == concept_attribs['id'] ).one()
-        ses2.delete( c2 )
+        h = query_history( ses2 )
+        compare_attrs( h, history_attribs )
+        delete_history( ses2 )
         ses2.commit()
         ses2.close()
+
+    @attr( type = 'association' )
+    def test_associations( self ):
+        '''verify behavior of history associations'''
+        
+        ses = hooke.model.SQLiteMemorySession()
+        add_history( ses )
+        ses.commit()
+
+        h = query_history( ses )
+        c = query_concept( ses )
+        p = query_palette( ses )
+        cp = query_concept_palette( ses )
+        
+        assert h.concept_palette == cp
+        assert h.concept == c
+        assert h.palette == p
+        
+        delete_history( ses )
+        ses.commit()
+        ses.close()

@@ -3,7 +3,7 @@ from nose.plugins.attrib import attr
 
 import hooke
 
-from ._attributes import concept_attribs, palette_attribs, concept_palette_attribs
+from ._factory import concept_palette_attribs, add_concept_palette, query_concept_palette, delete_concept_palette, query_concept, query_palette
 from ._helpers import check_attr, compare_attrs, check_assoc_repr
 
 class ConceptPaletteTests( TestCase ):
@@ -23,26 +23,14 @@ class ConceptPaletteTests( TestCase ):
         '''verify persistence of "ConceptPalette" instances'''
         
         ses1 = hooke.model.SQLiteMemorySession()
-        c1 = hooke.model.Concept( **concept_attribs )
-        ses1.add( c1 )
-        p1 = hooke.model.Palette( **palette_attribs )
-        ses1.add( p1 )
-        cp1 = hooke.model.ConceptPalette( **concept_palette_attribs )
-        ses1.add( cp1 )
+        add_concept_palette( ses1 )
         ses1.commit()
         ses1.close()
     
         ses2 = hooke.model.SQLiteMemorySession()
-        cp2 = ses2.query( hooke.model.ConceptPalette ).filter(
-                                hooke.model.ConceptPalette.concept_id == concept_palette_attribs['concept_id'],
-                                hooke.model.ConceptPalette.palette_id == concept_palette_attribs['palette_id']
-        ).one()
-        compare_attrs( cp2, concept_palette_attribs )
-        ses2.delete( cp2 )
-        p2 = ses2.query( hooke.model.Palette ).filter( hooke.model.Palette.id == palette_attribs['id'] ).one()
-        ses2.delete( p2 )
-        c2 = ses2.query( hooke.model.Concept ).filter( hooke.model.Concept.id == concept_attribs['id'] ).one()
-        ses2.delete( c2 )
+        cp = query_concept_palette( ses2 )
+        compare_attrs( cp, concept_palette_attribs )
+        delete_concept_palette( ses2 )
         ses2.commit()
         ses2.close()
     
@@ -51,13 +39,12 @@ class ConceptPaletteTests( TestCase ):
         '''verify behavior of concept-to-palette association'''
         
         ses = hooke.model.SQLiteMemorySession()
-        c = hooke.model.Concept( **concept_attribs )
-        ses.add( c )
-        p = hooke.model.Palette( **palette_attribs )
-        ses.add( p )
-        cp = hooke.model.ConceptPalette( **concept_palette_attribs )
-        ses.add( cp )
+        add_concept_palette( ses )
         ses.commit()
+
+        c = query_concept( ses )
+        p = query_palette( ses )
+        cp = query_concept_palette( ses )
         
         assert len( c.concept_palettes ) == 1
         assert c.concept_palettes[0] == cp
@@ -68,9 +55,7 @@ class ConceptPaletteTests( TestCase ):
         assert p.concept_palettes[0] == cp
         assert len( p.concepts ) == 1
         assert p.concepts[0] == c
-    
-        ses.delete( cp )
-        ses.delete( p )
-        ses.delete( c )
+
+        delete_concept_palette( ses )
         ses.commit()
         ses.close()
