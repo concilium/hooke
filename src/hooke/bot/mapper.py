@@ -1,4 +1,5 @@
 import logging
+import re
 import threading
 
 class Mapper( threading.Thread ):
@@ -13,13 +14,20 @@ class Mapper( threading.Thread ):
         self.functions = []
 
     def register_function( self, function ):
-        self._log.info( 'registering %s function', function.function_name )
+        self._log.info( 'registering %s function', function.name )
+
         self.functions.append( function )
 
     def run( self ):
         self._log.info( 'mapper starting' )
 
+        f_map = []
         for f in self.functions:
+            f_map.append( {
+                'name'  : f.name,
+                'rx'    : re.compile( f.command_rx ),
+                'callq' : f.call_q,
+            } )
             f.start()
 
         while True:
@@ -27,14 +35,14 @@ class Mapper( threading.Thread ):
             self._log.debug( 'dequeued command: %s', command )
             
             matched = False
-            for f in self.functions:
-                match = f.command_pattern.match( command )
+            for f in f_map:
+                match = f['rx'].match( command )
                 if match:
                     matched = True
                     call = match.groupdict()
                     
-                    self._log.debug( 'enqueuing %s call: %s', f.function_name, call )
-                    f.call_q.put( call )
+                    self._log.debug( 'enqueuing %s call: %s', f['name'], call )
+                    f['callq'].put( call )
                     
             if not matched:
                 self._log.warning( 'unrecognized command, ignoring' )

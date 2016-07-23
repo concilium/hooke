@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import logging
+logging.basicConfig( level = 'DEBUG' )
+
+import sqlalchemy
+engine = sqlalchemy.create_engine( 'postgresql://hookeusr:grundlekins@localhost:5432/hookedb' )
+
+import hooke
+hooke.model.HookeModelBase.metadata.create_all( engine )
+
+c = hooke.bot.Chassis( 'xoxb-59631153974-CCMvWfuKsWkltl9gaY3zGLyb', 'hooke', 'microscope-testing', engine )
+c.power_on()
