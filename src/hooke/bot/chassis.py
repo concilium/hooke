@@ -14,19 +14,18 @@ class Chassis:
     def __init__( self, slack_bot_token, slack_bot_name, slack_channel_name, sqla_engine ):
         self._log = logging.getLogger( 'hooke.bot.Chassis' )
         self._log.info( 'chassis initializing' )
-        
+
         self.command_q = queue.Queue()
         self.listener = Listener( slack_bot_token = slack_bot_token,
                                   slack_bot_name = slack_bot_name,
                                   slack_channel_name = slack_channel_name,
                                   command_q = self.command_q )
-
+        
         self.message_q = queue.Queue()
         self.emitter = Emitter( slack_bot_token = slack_bot_token,
                                 slack_bot_name = slack_bot_name,
                                 slack_channel_name = slack_channel_name,
                                 message_q = self.message_q )
-
 
         self.session_factory = sessionmaker( bind = sqla_engine )
         self.session = scoped_session( self.session_factory )
