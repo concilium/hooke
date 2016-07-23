@@ -2,7 +2,9 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
 
-from . import HookeModelBase
+from contextlib import contextmanager
+
+from .bases import HookeModelBase
 
 # session engine for SQLite in-memory database
 
@@ -17,8 +19,17 @@ HookeModelBase.metadata.create_all( engine )
 
 SQLiteMemorySession = sessionmaker( bind = engine )
 
+# simple parameterized session context manager
 
-
-
-
+@contextmanager
+def session_scope( session_type ):
+    session = session_type()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 

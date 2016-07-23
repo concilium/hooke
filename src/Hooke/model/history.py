@@ -15,10 +15,11 @@ class History( HookeModelBase ):
     # attributes
         
     id = Column( 'id', String, primary_key = True )
-    started_on = Column( 'started_on', DateTime, nullable = False  )
+    title = Column( 'title', String, nullable = False )
     concept_id = Column( 'concept_id', String, nullable = False )
     palette_id = Column( 'palette_id', String, nullable = False )
-    state = Column( 'state', EnumType( State ), nullable = False )
+    started_on = Column( 'started_on', DateTime, nullable = False  )
+    state = Column( 'state', EnumType( State, name = 'state' ), nullable = False )
 
     # relationships
     

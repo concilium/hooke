@@ -10,5 +10,3 @@ from .palette_ingredient import PaletteIngredient
 from .history import History
 from .player import Player
 from .history_player import HistoryPlayer
-
-from .sessions import SQLiteMemorySession

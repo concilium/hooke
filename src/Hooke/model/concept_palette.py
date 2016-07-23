@@ -10,6 +10,7 @@ class ConceptPalette( HookeModelBase ):
     
     concept_id = Column( 'concept_id', String, ForeignKey( 'concept.id' ), primary_key = True )
     palette_id = Column( 'palette_id', String, ForeignKey( 'palette.id' ), primary_key = True )
+    title = Column( 'name', String, nullable = False )
     notes = Column( 'notes', Text, nullable = False )
     
     # relationships

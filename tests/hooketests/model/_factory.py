@@ -64,6 +64,7 @@ def delete_ingredient( session ):
 concept_palette_attribs = {
     'concept_id' : concept_attribs['id'],
     'palette_id' : palette_attribs['id'],
+    'title'      : 'My Concept Palette',
     'notes'      : 'These are my concept-palette notes.',
 }
 
@@ -119,9 +120,10 @@ def delete_palette_ingredient( session ):
 
 history_attribs = {
     'id'         : 'myhistory',
-    'started_on' : datetime.datetime.now(),
+    'title'      : 'My History',
     'concept_id' : concept_attribs['id'],
     'palette_id' : palette_attribs['id'],
+    'started_on' : datetime.datetime.now(),
     'state'      : hooke.model.State.active,
 }
 
@@ -144,7 +146,6 @@ def delete_history( session ):
 
 player_attribs = {
     'id'         : 'myplayer',
-    'password'   : 'mypassword',
     'first_name' : 'My',
     'last_name'  : 'Player',
     'email'      : 'myplayer@nowhere.com',

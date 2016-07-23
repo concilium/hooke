@@ -1,21 +1,50 @@
-from sqlalchemy import create_engine
-engine = create_engine( 'sqlite:///:memory:', echo=True )
+# Slackification
 
-import Hooke
-Hooke.model.HookeModelBase.metadata.create_all( engine )
+At https://slack.com/
 
-from sqlalchemy.orm import sessionmaker
-Session = sessionmaker( bind = engine )
-session = Session()
+	Create a new team
+	
+		Email:		stendhal9@white-knight.org
+		Team Name:	The Concilium
+		
+	Created a bot integration
+	
+		API Token:	xoxb-59631153974-CCMvWfuKsWkltl9gaY3zGLyb
+		User name:	hooke
+		Icon:		(microscope emoji)
+		Full Name:	Hooke
+		[...]
+		
+	Install client library
+	
+		pip install slackclient
+		
+And then
 
-p = Hooke.model.Palette( id = 'mypalette', description = 'This is my palette description.' )
-session.add( p )
-session.commit()
+	Install dispatcher library
+	
+		pip install pydispatcher
 
-i = Hooke.model.Ingredient( id = 'myingredient', flavor = Hooke.model.Flavor.include, statement = 'This is my ingredient statement.' )
-session.add( i )
-session.commit()
 
-pi = Hooke.model.PaletteIngredient( palette_id = p.id, ingredient_id = i.id )
-session.add( pi )
-session.commit()
+# PostgreSQL setup
+
+    export PATH=/Applications/Postgres.app/Contents/Versions/9.5/bin:$PATH
+	pip install psycopg
+
+create user hookeusr with password 'grundlekins';
+create database hookedb with owner = hookeusr;
+
+		
+# Bot startup
+
+import logging
+logging.basicConfig( level = 'DEBUG' )
+
+import sqlalchemy
+engine = sqlalchemy.create_engine('postgresql://hookeusr:grundlekins@localhost:5432/hookedb')
+
+import hooke
+hooke.model.HookeModelBase.metadata.create_all( engine )
+
+c = hooke.bot.Chassis( 'xoxb-59631153974-CCMvWfuKsWkltl9gaY3zGLyb', 'hooke', 'microscope-testing', engine )
+c.power_on()

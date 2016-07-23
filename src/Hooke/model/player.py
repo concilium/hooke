@@ -10,7 +10,6 @@ class Player( HookeModelBase ):
     # attributes
         
     id = Column( 'id', String, primary_key = True )
-    password = Column( 'password', String, nullable = False  )
     first_name = Column( 'first_name', String, nullable = False  )
     last_name = Column( 'last_name', String, nullable = False  )
     email = Column( 'email', String, nullable = False  )

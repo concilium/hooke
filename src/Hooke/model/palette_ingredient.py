@@ -11,7 +11,7 @@ class PaletteIngredient( HookeModelBase ):
         
     palette_id = Column( 'palette_id', String, ForeignKey( 'palette.id' ), primary_key = True )
     ingredient_id = Column( 'ingredient_id', String, ForeignKey( 'ingredient.id' ), primary_key = True )
-    flavor = Column( 'flavor', EnumType( Flavor ), nullable = False )
+    flavor = Column( 'flavor', EnumType( Flavor, name = 'flavor' ), nullable = False )
     
     # relationships
     

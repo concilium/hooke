@@ -10,7 +10,7 @@ setup(
     entry_points = {
     },
 
-    install_requires     = [ 'Flask', 'SQLAlchemy', 'sqlalchemy-enum34' ],
+    install_requires     = [ 'Flask', 'SQLAlchemy', 'sqlalchemy-enum34', 'slackclient', 'pydispatcher' ],
 
     author               = 'Mike Simpson',
     author_email         = 'stendhal9@white-knight.org',
