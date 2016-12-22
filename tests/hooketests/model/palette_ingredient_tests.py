@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import palette_ingredient_attribs, add_palette_ingredient, query_palette_ingredient, delete_palette_ingredient, query_palette, query_ingredient
-from ._helpers import check_attr, compare_attrs, check_assoc_repr
+from ._helpers import check_attr, compare_attrs, check_assoc_repr, SQLiteMemorySession
 
 class PaletteIngredientTests( TestCase ):
 
@@ -22,12 +22,12 @@ class PaletteIngredientTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "PaletteIngredient" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_palette_ingredient( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         pi = query_palette_ingredient( ses2 )
         compare_attrs( pi, palette_ingredient_attribs )
         delete_palette_ingredient( ses2 )
@@ -38,7 +38,7 @@ class PaletteIngredientTests( TestCase ):
     def test_associations( self ):
         '''verify behavior of palette-to-ingredient association'''
         
-        ses = hooke.model.SQLiteMemorySession()
+        ses = SQLiteMemorySession()
         add_palette_ingredient( ses )
         ses.commit()
 

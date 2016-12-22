@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import concept_attribs, add_concept, query_concept, delete_concept
-from ._helpers import check_attr, compare_attrs, check_repr
+from ._helpers import check_attr, compare_attrs, check_repr, SQLiteMemorySession
 
 class ConceptTests( TestCase ):
 
@@ -22,12 +22,12 @@ class ConceptTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "Concept" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_concept( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         c = query_concept( ses2 )
         compare_attrs( c, concept_attribs )
         delete_concept( ses2 )

@@ -9,9 +9,13 @@ from .mapper import Mapper
 
 from .functions import Echo
 from .functions import MakeConcept, DropConcept, ListConcepts
-from .functions import MakePalette, DropPalette, ListPalettes
+from .functions import MakePalette, DropPalette, ListPalettes, ShowPalette
 from .functions import MakeIngredient, DropIngredient, ListIngredients
 from .functions import IncludeIngredientInPalette, ExcludeIngredientInPalette, RemoveIngredientFromPalette
+from .functions import CreateSeed, ListSeeds, ShowSeed
+from .functions import MakePlayer, DropPlayer, ListPlayers
+from .functions import StartHistory, ListHistories, ShowHistory
+from .functions import AddPlayerToHistory
 
 class Chassis:
 
@@ -38,9 +42,13 @@ class Chassis:
 
         for Function in [ Echo,
                           MakeConcept, DropConcept, ListConcepts,
-                          MakePalette, DropPalette, ListPalettes,
+                          MakePalette, DropPalette, ListPalettes, ShowPalette,
                           MakeIngredient, DropIngredient, ListIngredients,
-                          IncludeIngredientInPalette, ExcludeIngredientInPalette, RemoveIngredientFromPalette ]:
+                          IncludeIngredientInPalette, ExcludeIngredientInPalette, RemoveIngredientFromPalette,
+                          CreateSeed, ListSeeds, ShowSeed,
+                          MakePlayer, DropPlayer, ListPlayers,
+                          StartHistory, ListHistories, ShowHistory,
+                          AddPlayerToHistory ]:
             q = queue.Queue()
             f = Function( call_q = q, message_q = self.message_q, session = self.session )
             self.mapper.register_function( f )

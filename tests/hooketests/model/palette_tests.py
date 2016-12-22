@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import palette_attribs, add_palette, query_palette, delete_palette
-from ._helpers import check_attr, compare_attrs, check_repr
+from ._helpers import check_attr, compare_attrs, check_repr, SQLiteMemorySession
 
 class PaletteTests( TestCase ):
 
@@ -22,12 +22,12 @@ class PaletteTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "Palette" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_palette( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         p = query_palette( ses2 )
         compare_attrs( p, palette_attribs )
         delete_palette( ses2 )

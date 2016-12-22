@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import ingredient_attribs, add_ingredient, query_ingredient, delete_ingredient
-from ._helpers import check_attr, compare_attrs, check_repr
+from ._helpers import check_attr, compare_attrs, check_repr, SQLiteMemorySession
 
 class IngredientTests( TestCase ):
 
@@ -22,12 +22,12 @@ class IngredientTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "Ingredient" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_ingredient( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         i = query_ingredient( ses2 )
         compare_attrs( i, ingredient_attribs )
         delete_ingredient( ses2 )

@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import history_attribs, add_history, query_history, delete_history, query_concept, query_palette, query_concept_palette
-from ._helpers import check_attr, compare_attrs, check_repr
+from ._helpers import check_attr, compare_attrs, check_repr, SQLiteMemorySession
 
 class HistoryTests( TestCase ):
 
@@ -22,12 +22,12 @@ class HistoryTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "History" instances'''
 
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_history( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         h = query_history( ses2 )
         compare_attrs( h, history_attribs )
         delete_history( ses2 )
@@ -38,7 +38,7 @@ class HistoryTests( TestCase ):
     def test_associations( self ):
         '''verify behavior of history associations'''
         
-        ses = hooke.model.SQLiteMemorySession()
+        ses = SQLiteMemorySession()
         add_history( ses )
         ses.commit()
 

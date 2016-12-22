@@ -192,3 +192,114 @@ def delete_history_player( session ):
     delete_player( session )
     delete_history( session )
     return
+
+period_attribs = {
+    'id'          : 'mydetachedperiod',
+    'history_id'  : history_attribs['id'],
+    'placement'   : hooke.model.Placement.detached,
+    'description' : 'This is my detached period description.',
+    'tone'        : hooke.model.Tone.light,
+}
+
+def add_period( session ):
+    add_history( session )
+    period = hooke.model.Period( **period_attribs )
+    session.add( period )
+    return
+
+def query_period( session ):
+    period = session.query( hooke.model.Period ).filter( hooke.model.Period.id == period_attribs['id'] ).one()
+    return period
+
+def delete_period( session ):
+    period = query_period( session )
+    session.delete( period )
+    session.commit()
+    delete_history( session )
+    return
+
+initial_period_attribs = {
+    'id'             : 'myinitialperiod',
+    'history_id'     : history_attribs['id'],
+    'placement'      : hooke.model.Placement.initial,
+    'description'    : 'This is my initial period description.',
+    'tone'           : hooke.model.Tone.light,
+    'next_period_id' : 'mymedialperiod',
+}
+
+medial_period_attribs = {
+    'id'             : 'mymedialperiod',
+    'history_id'     : history_attribs['id'],
+    'placement'      : hooke.model.Placement.medial,
+    'description'    : 'This is my medial period description.',
+    'tone'           : hooke.model.Tone.dark,
+    'prev_period_id' : 'myinitialperiod',
+    'next_period_id' : 'myfinalperiod',
+}
+
+final_period_attribs = {
+    'id'             : 'myfinalperiod',
+    'history_id'     : history_attribs['id'],
+    'placement'      : hooke.model.Placement.final,
+    'description'    : 'This is my final period description.',
+    'tone'           : hooke.model.Tone.light,
+    'prev_period_id' : 'mymedialperiod',
+}
+
+def add_initial_period( session, composed = False ):
+    if composed:
+        add_history( session )
+    initial_period = hooke.model.InitialPeriod( **initial_period_attribs )
+    session.add( initial_period )
+    return
+
+def query_initial_period( session ):
+    period = session.query( hooke.model.InitialPeriod ).filter( hooke.model.InitialPeriod.id == initial_period_attribs['id'] ).one()
+    return period
+
+def delete_initial_period( session, composed = False ):
+    initial_period = query_initial_period( session )
+    session.delete( initial_period )
+    session.commit()
+    if composed:
+        delete_history( session )
+    return
+
+def add_medial_period( session, composed = False ):
+    if composed:
+        add_history( session )
+    medial_period = hooke.model.MedialPeriod( **medial_period_attribs )
+    session.add( medial_period )
+    return
+
+def query_medial_period( session ):
+    period = session.query( hooke.model.MedialPeriod ).filter( hooke.model.MedialPeriod.id == medial_period_attribs['id'] ).one()
+    return period
+
+def delete_medial_period( session, composed = False ):
+    medial_period = query_medial_period( session )
+    session.delete( medial_period )
+    session.commit()
+    if composed:
+        delete_history( session )
+    return
+
+def add_final_period( session, composed = False ):
+    if composed:
+        add_history( session )
+    final_period = hooke.model.FinalPeriod( **final_period_attribs )
+    session.add( final_period )
+    return
+
+def query_final_period( session ):
+    period = session.query( hooke.model.FinalPeriod ).filter( hooke.model.FinalPeriod.id == final_period_attribs['id'] ).one()
+    return period
+
+def delete_final_period( session, composed = False ):
+    final_period = query_final_period( session )
+    session.delete( final_period )
+    session.commit()
+    if composed:
+        delete_history( session )
+    return
+

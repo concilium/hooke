@@ -8,7 +8,8 @@ class State( Enum ):
     active = 'active'
     inactive = 'inactive'
 
-class Position( Enum ):
+class Placement( Enum ):
+    detached = 'detached'
     initial = 'initial'
     medial = 'medial'
     final = 'final'

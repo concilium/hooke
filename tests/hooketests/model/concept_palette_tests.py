@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import concept_palette_attribs, add_concept_palette, query_concept_palette, delete_concept_palette, query_concept, query_palette
-from ._helpers import check_attr, compare_attrs, check_assoc_repr
+from ._helpers import check_attr, compare_attrs, check_assoc_repr, SQLiteMemorySession
 
 class ConceptPaletteTests( TestCase ):
 
@@ -22,12 +22,12 @@ class ConceptPaletteTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "ConceptPalette" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_concept_palette( ses1 )
         ses1.commit()
         ses1.close()
     
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         cp = query_concept_palette( ses2 )
         compare_attrs( cp, concept_palette_attribs )
         delete_concept_palette( ses2 )
@@ -38,7 +38,7 @@ class ConceptPaletteTests( TestCase ):
     def test_associations( self ):
         '''verify behavior of concept-to-palette association'''
         
-        ses = hooke.model.SQLiteMemorySession()
+        ses = SQLiteMemorySession()
         add_concept_palette( ses )
         ses.commit()
 

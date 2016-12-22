@@ -4,7 +4,7 @@ from nose.plugins.attrib import attr
 import hooke
 
 from ._factory import history_player_attribs, add_history_player, query_history_player, delete_history_player, query_history, query_player
-from ._helpers import check_attr, compare_attrs, check_assoc_repr
+from ._helpers import check_attr, compare_attrs, check_assoc_repr, SQLiteMemorySession
 
 class HistoryPlayerTests( TestCase ):
 
@@ -22,12 +22,12 @@ class HistoryPlayerTests( TestCase ):
     def test_persistence( self ):
         '''verify persistence of "HistoryPlayer" instances'''
         
-        ses1 = hooke.model.SQLiteMemorySession()
+        ses1 = SQLiteMemorySession()
         add_history_player( ses1 )
         ses1.commit()
         ses1.close()
 
-        ses2 = hooke.model.SQLiteMemorySession()
+        ses2 = SQLiteMemorySession()
         hp = query_history_player( ses2 )
         compare_attrs( hp, history_player_attribs )
         delete_history_player( ses2 )
@@ -38,7 +38,7 @@ class HistoryPlayerTests( TestCase ):
     def test_associations( self ):
         '''verify behavior of history-to-player association'''
 
-        ses = hooke.model.SQLiteMemorySession()
+        ses = SQLiteMemorySession()
         add_history_player( ses )
         ses.commit()
 

@@ -25,16 +25,17 @@ class StateTests( TestCase ):
         assert hooke.model.State.active
         assert hooke.model.State.inactive
 
-class PositionTests( TestCase ):
+class PlacementTests( TestCase ):
 
     @attr( type = 'existence' )
     def test_existence( self ):
-        '''verify existence and values of "Position" enumeration'''
+        '''verify existence and values of "Placement" enumeration'''
     
-        check_attr( hooke.model, 'Position' )
-        assert hooke.model.Position.initial
-        assert hooke.model.Position.medial
-        assert hooke.model.Position.final
+        check_attr( hooke.model, 'Placement' )
+        assert hooke.model.Placement.detached
+        assert hooke.model.Placement.initial
+        assert hooke.model.Placement.medial
+        assert hooke.model.Placement.final
 
 class ToneTests( TestCase ):
 
